@@ -104,3 +104,37 @@ for train, test in kf.split(X, y):
         np.bincount(y[train]),np.bincount(y[test])
     ))              
 
+# Group K-fold
+from sklearn.model_selection import GroupKFold
+X = [0.1, 0.2, 2.2, 2.4, 2.3, 4.55, 5.8, 8.8, 9, 10]
+y = ["a", "b", "b", "b", "c", "c", "c", "d", "d", "d"]
+groups = [1, 1, 1, 2, 2, 2, 3, 3, 3, 3]
+
+gkf = GroupKFold(n_splits=3)
+for train, test in gkf.split(X, y, groups=groups):
+    print("%s %s" % (train, test))
+    
+
+# StratifiedGroupFold
+from sklearn.model_selection import StratifiedGroupKFold
+X = list(range(18))
+y = [1] * 6 + [0] * 12
+groups = [1, 2, 3, 3, 4, 4, 1, 1, 2, 2, 3, 4, 5, 5, 5, 6, 6, 6]
+sgkf = StratifiedGroupKFold(n_splits=3)
+for train, test in sgkf.split(X, y, groups=groups):
+    print("%s %s" % (train, test))
+    
+
+#Using cross-validation iterations to split train and test
+from sklearn.model_selection import GroupShuffleSplit
+
+X = np.array([0.1, 0.2, 2.2, 2.4, 2.3, 4.55, 5.8, 0.001])
+y = np.array(["a", "b", "b", "b", "c", "c", "c", "a"])
+groups = np.array([1, 1, 2, 2, 3, 3, 4, 4])
+train_indx, test_indx = next(
+    GroupShuffleSplit(random_state=7).split(X, y, groups)
+)
+X_train, X_test, y_train, y_test = \
+    X[train_indx], X[test_indx], y[train_indx], y[test_indx]
+    
+np.unique(groups[train_indx]), np.unique(groups[test_indx])

@@ -1,4 +1,10 @@
 from sklearn.linear_model import SGDClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import SGDClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.metrics import classification_report
 
 X, y = load_iris(return_X_y=True)
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
@@ -28,13 +34,13 @@ clf = SGDClassifier(loss="log_loss", max_iter=5).fit(X, y)
 print("log probabilities:", clf.predict_log_proba([[1., 1.]]))
 
 
-from sklearn.preprocessing import StandardScaler
+##
 scaler = StandardScaler()
 scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
-from sklearn.pipeline import make_pipeline
+#
 est = make_pipeline(StandardScaler(), SGDClassifier())
 est.fit(X_train)
 est.predict(X_test)

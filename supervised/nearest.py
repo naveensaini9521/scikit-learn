@@ -27,7 +27,7 @@ clf = NearestCentroid()
 clf.fit(X, y)
 print(clf.predict([[-0.8, -1]]))
 
-
+----
 # Nearest Neighbors Transformer
 
 cache_path = tempfile.gettempdir()
